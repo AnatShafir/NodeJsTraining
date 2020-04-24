@@ -4,6 +4,16 @@ class DB {
   constructor(dbPath) {
     this.dbPath = dbPath
   }
+
+  get(collectionName, id, done) {
+    Fs.readFile(`${this.dbPath}/${collectionName}/${id}.json`, (err, data) => {
+      if (err) {
+        if (err.code === 'ENOENT') return done()
+        return done(err)
+      }
+      done(null, JSON.parse(data))
+    })
+  }
 }
 
 module.exports.connect = (dbFolderPath, done) => {
