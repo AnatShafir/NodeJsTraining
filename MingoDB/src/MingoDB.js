@@ -33,6 +33,22 @@ class DB {
       }
     ], done)
   }
+
+  find(collectionName, queryFunction, done) {
+    Async.waterfall([
+      (callback) => {
+        Fs.readdir(`${this.dbPath}/${collectionName}`, callback)
+      }, 
+      (files, callback) => {
+        Async.map(files, (fileName, callback) => this.get(collectionName, fileName.split('.', 1), callback),
+         callback)
+      }
+    ], 
+    (err, files) => {
+      if (err) return done(err)
+      done(null, files.filter(document => queryFunction(document)))
+    })
+  }
 }
 
 module.exports.connect = (dbFolderPath, done) => {
