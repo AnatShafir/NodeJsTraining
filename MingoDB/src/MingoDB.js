@@ -1,4 +1,5 @@
 const Fs = require("fs")
+const Async = require('async')
 
 class DB {
   constructor(dbPath) {
@@ -13,6 +14,24 @@ class DB {
       }
       done(null, JSON.parse(data))
     })
+  }
+
+  delete(collectionName, id, done) {
+    let fullPath = `${this.dbPath}/${collectionName}/${id}.json`
+    Async.series([
+      (callback) => {
+        Fs.access(fullPath, (err) => {
+          if (err) {
+            if (err.code === 'ENOENT') return done()
+            return callback(err)
+          }
+          callback()
+        })
+      },
+      (callback) => {
+        Fs.unlink(fullPath, callback)
+      }
+    ], done)
   }
 }
 
