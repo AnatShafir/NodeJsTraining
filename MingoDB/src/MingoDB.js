@@ -49,6 +49,46 @@ class DB {
       done(null, files.filter(document => queryFunction(document)))
     })
   }
+  
+  insert(collectionName, jsonObj, done) {
+    let createFile = (collectionName, jsonObj, done) => {
+      Fs.writeFile(`${this.dbPath}/${collectionName}/${jsonObj.id}.json`, JSON.stringify(jsonObj), (err) => {
+        if (err) return done(err)
+        done(null, jsonObj.id)
+      })
+    }
+
+    Async.whilst(
+      (callback) => { 
+        callback(null, !jsonObj.hasOwnProperty('id')) 
+      }, 
+      (callback) => {
+        let generatedId = Math.floor(Math.pow(10, 6) + Math.random() * 9 * Math.pow(10, 6)).toString()
+        this.get(collectionName, generatedId, (err, result) => {
+          if (err) return callback(err)
+          if (result == null) {
+            jsonObj.id = generatedId
+          }
+          callback()
+        })
+      }, 
+      (err) => {
+        if (err) return done(err)
+        Async.waterfall([
+          (callback) => {
+            Fs.readdir(`${this.dbPath}`, callback)
+          },
+          (files, callback) => {
+            if (files.includes(collectionName)) return callback()
+            Fs.mkdir(`${this.dbPath}/${collectionName}`, callback)
+          }
+        ], 
+        (err) => {
+          if (err) return done(err)
+          createFile(collectionName, jsonObj, done)
+        })
+      })
+  }
 }
 
 module.exports.connect = (dbFolderPath, done) => {
