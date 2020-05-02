@@ -84,6 +84,10 @@ const testUtils = {
     getJusticeBoard: {
       path: '/justiceBoard',
       method: 'GET'
+    },
+    scheduleDuties: {
+      path: '/duties',
+      method: 'PUT'
     }
   },
   postAllSoldiers: async () => {
