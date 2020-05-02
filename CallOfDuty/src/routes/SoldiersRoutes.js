@@ -13,6 +13,13 @@ soldiersRouter.route('/')
       appUtils.rejectRequest(res, err)
     }
   })
+  .get(async (req, res) => {
+    try {
+      appUtils.resolveRequest(res, await soldiersCollection.getSoldier(req.query))
+    } catch (err) {
+      appUtils.rejectRequest(res, err)
+    }
+  })
 
 module.exports.loadSoldiersRoutes = (app) => {
   app.use('/soldiers', soldiersRouter)

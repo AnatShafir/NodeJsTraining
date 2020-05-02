@@ -25,6 +25,16 @@ const appUtils = {
   },
   rejectRequest: (res, err) => {
     res.status(400).send(err.message)
+  },
+  findInDB: async (collection, queryFunction) => {
+    return await promisify(appUtils.callOfDuty.db.find).call(appUtils.callOfDuty.db, collection, queryFunction)
+  },
+  createQueryFunction: (query) => {
+    if (query.name) {
+      return (document) => document.hasOwnProperty('name') && document.name === query.name
+    } else {
+      return () => true
+    }
   }
 }
 
