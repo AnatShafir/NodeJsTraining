@@ -64,6 +64,10 @@ const testUtils = {
     getSoldiers: {
       path: '/soldiers',
       method: 'GET'
+    },
+    postDuties: {
+      path: '/duties',
+      method: 'POST'
     }
   },
   postAllSoldiers: async () => {
@@ -78,6 +82,44 @@ const testUtils = {
     let requestOptionsWithPath = Object.assign({}, requestOptions)
     requestOptionsWithPath.path += path
     return requestOptionsWithPath
+  },
+  testDuties: [
+    {
+      name: 'kitchen',
+      location: 'kirya',
+      days: {
+        startDate: "2020-04-13",
+        endDate: "2020-04-15"
+      },
+      constraints: ['heavy lifting', 'standing'],
+      soldiersRequired: 1,
+      value: 5
+    }, 
+    {
+      name: 'gaurding',
+      location: 'kirya',
+      days: {
+        startDate: "2020-04-13",
+        endDate: "2020-04-15"
+      },
+      constraints: ['using weapons', 'standing'],
+      soldiersRequired: 2,
+      value: 10
+    }, 
+    {
+      name: 'gaurding',
+      location: 'kirya',
+      days: {
+        startDate: "2020-04-13",
+        endDate: "2020-04-15"
+      },
+      constraints: ['standing'],
+      soldiersRequired: 3,
+      value: 7
+    }
+  ],
+  getDutyFromDB: async (dutyId) => {
+    return await callOfDuty.appUtils.getFromDB(callOfDuty.dutiesCollection, dutyId)
   }
 }
 
@@ -86,6 +128,11 @@ testUtils.expectedSoldiers = testUtils.testSoldiers.map((testSoldier) => {
   let expectedSoldier = Object.assign({}, testSoldier)
   expectedSoldier.duties = []
   return expectedSoldier
+})
+testUtils.expectedDuties = testUtils.testDuties.map((testDuty) => {
+  let expectedDuty = Object.assign({}, testDuty)
+  expectedDuty.soldiers = []
+  return expectedDuty
 })
 
 module.exports = testUtils
