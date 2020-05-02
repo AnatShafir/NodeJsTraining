@@ -42,16 +42,50 @@ const testUtils = {
       name: 'Anat Shafir',
       rank: 'Rbt',
       limitations: ['using weapons', 'heavy lifting']
+    },
+    {
+      id: '1234567',
+      name: 'Mia Betzalel',
+      rank: 'Rbt',
+      limitations: []
+    },
+    {
+      id: '7654321',
+      name: 'Anat Shafir',
+      rank: 'Rav-Aluf',
+      limitations: ['heavy lifting']
     }
   ],
   requestOptions: {
     postSoldiers: {
       path: '/soldiers',
       method: 'POST'
+    },
+    getSoldiers: {
+      path: '/soldiers',
+      method: 'GET'
     }
+  },
+  postAllSoldiers: async () => {
+    for (const soldier of testUtils.expectedSoldiers) {
+      await testUtils.insertSoldier(soldier)
+    }
+  },
+  insertSoldier: async (soldier) => {
+    return await callOfDuty.appUtils.insertToDB(callOfDuty.soldiersCollection, soldier)
+  },
+  ammendRequestPath: (requestOptions, path) => {
+    let requestOptionsWithPath = Object.assign({}, requestOptions)
+    requestOptionsWithPath.path += path
+    return requestOptionsWithPath
   }
 }
 
 Object.keys(testUtils.requestOptions).map(key => testUtils.requestOptions[key].port = testUtils.port)
+testUtils.expectedSoldiers = testUtils.testSoldiers.map((testSoldier) => {
+  let expectedSoldier = Object.assign({}, testSoldier)
+  expectedSoldier.duties = []
+  return expectedSoldier
+})
 
 module.exports = testUtils
