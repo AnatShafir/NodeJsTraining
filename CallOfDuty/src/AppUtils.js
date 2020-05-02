@@ -35,6 +35,9 @@ const appUtils = {
     } else {
       return () => true
     }
+  },
+  getFromDB: async (collection, id) => {
+    return await promisify(appUtils.callOfDuty.db.get).call(appUtils.callOfDuty.db, collection, id)
   }
 }
 

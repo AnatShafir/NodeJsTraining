@@ -7,5 +7,8 @@ module.exports = {
   },
   getSoldier: async (query) => {
     return await appUtils.findInDB(appUtils.callOfDuty.soldiersCollection, appUtils.createQueryFunction(query))
+  },
+  getSoldierByID: async (id) => {
+    return await appUtils.getFromDB(appUtils.callOfDuty.soldiersCollection, id)
   }
 }
