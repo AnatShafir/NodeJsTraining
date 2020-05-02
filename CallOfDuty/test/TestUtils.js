@@ -80,6 +80,10 @@ const testUtils = {
     updateDuties: {
       path: '/duties',
       method: 'PATCH'
+    },
+    getJusticeBoard: {
+      path: '/justiceBoard',
+      method: 'GET'
     }
   },
   postAllSoldiers: async () => {
