@@ -31,6 +31,13 @@ dutiesByIdRouter.route('/')
       appUtils.rejectRequest(res, err)
     }
   })
+  .delete(async (req, res) => {
+    try {
+      appUtils.resolveRequest(res, await dutiesCollection.deleteDuty(req.params.id))
+    } catch (err) {
+      appUtils.rejectRequest(res, err)
+    }
+  })
 
 module.exports.loadDutiesRoutes = (app) => {
   app.use('/duties', dutiesRouter)
