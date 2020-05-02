@@ -68,6 +68,10 @@ const testUtils = {
     postDuties: {
       path: '/duties',
       method: 'POST'
+    },
+    getDuties: {
+      path: '/duties',
+      method: 'GET'
     }
   },
   postAllSoldiers: async () => {
@@ -120,6 +124,14 @@ const testUtils = {
   ],
   getDutyFromDB: async (dutyId) => {
     return await callOfDuty.appUtils.getFromDB(callOfDuty.dutiesCollection, dutyId)
+  },
+  postAllDuties: async () => {
+    for (const duty of testUtils.expectedDuties) {
+      await testUtils.insertDuty(duty)
+    }
+  },
+  insertDuty: async (duty) => {
+    duty.id = await callOfDuty.appUtils.insertToDB(callOfDuty.dutiesCollection, duty)
   }
 }
 
