@@ -72,6 +72,10 @@ const testUtils = {
     getDuties: {
       path: '/duties',
       method: 'GET'
+    },
+    deleteDuties: {
+      path: '/duties',
+      method: 'DELETE'
     }
   },
   postAllSoldiers: async () => {
