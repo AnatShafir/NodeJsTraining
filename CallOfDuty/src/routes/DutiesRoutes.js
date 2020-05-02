@@ -14,6 +14,13 @@ dutiesRouter.route('/')
       appUtils.rejectRequest(res, err)
     }
   })
+  .get(async (req, res) => {
+    try {
+      appUtils.resolveRequest(res, await dutiesCollection.getDuty(req.query))
+    } catch (err) {
+      appUtils.rejectRequest(res, err)
+    }
+  })
 
 module.exports.loadDutiesRoutes = (app) => {
   app.use('/duties', dutiesRouter)
