@@ -8,6 +8,9 @@ const collection = {
   },
   getDuty: async (query) => {
     return await appUtils.findInDB(appUtils.callOfDuty.dutiesCollection, appUtils.createQueryFunction(query))
+  },
+  getDutyByID: async (dutyId) => {
+    return await appUtils.getFromDB(appUtils.callOfDuty.dutiesCollection, dutyId)
   }
 }
 
