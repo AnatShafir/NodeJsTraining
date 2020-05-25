@@ -76,6 +76,10 @@ const testUtils = {
     deleteDuties: {
       path: '/duties',
       method: 'DELETE'
+    },
+    updateDuties: {
+      path: '/duties',
+      method: 'PATCH'
     }
   },
   postAllSoldiers: async () => {
