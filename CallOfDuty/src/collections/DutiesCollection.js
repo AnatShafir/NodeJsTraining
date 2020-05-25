@@ -22,6 +22,19 @@ const collection = {
   deleteDuty: async (dutyId) => {
     await collection.isDutyScheduled(dutyId)
     await promisify(appUtils.callOfDuty.db.delete).call(appUtils.callOfDuty.db, appUtils.callOfDuty.dutiesCollection, dutyId)
+  },
+  updateDuty: async (patch, reqId) => {
+    if (patch.id != reqId) {
+      throw new Error(`Patch's id must match original duty's id`)
+    } else {
+      let duty = await collection.isDutyScheduled(patch.id)
+      if (!Object.keys(patch).every(property => duty.hasOwnProperty(property))) {
+        throw new Error('Patch properties must match original duty properties')
+      } else {
+        Object.keys(patch).forEach(property => duty[property] = patch[property])
+        return await appUtils.insertToDB(appUtils.callOfDuty.dutiesCollection, duty)
+      } 
+    } 
   }
 }
 
