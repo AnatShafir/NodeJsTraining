@@ -2,6 +2,7 @@ const Express = require('express')
 
 const { loadSoldiersRoutes } = require('./routes/SoldiersRoutes')
 const { loadDutiesRoutes } = require('./routes/DutiesRoutes')
+const { loadJusticeBoardRoutes } = require('./routes/JusticeBoardRoutes')
 const appUtils = require('./AppUtils')
 
 const callOfDuty = {
@@ -13,6 +14,7 @@ const callOfDuty = {
     appUtils.callOfDuty = callOfDuty
     loadSoldiersRoutes(callOfDuty.app)
     loadDutiesRoutes(callOfDuty.app)
+    loadJusticeBoardRoutes(callOfDuty.app)
     callOfDuty.server = callOfDuty.app.listen(port)
   },
   appUtils: appUtils

@@ -38,6 +38,17 @@ const appUtils = {
   },
   getFromDB: async (collection, id) => {
     return await promisify(appUtils.callOfDuty.db.get).call(appUtils.callOfDuty.db, collection, id)
+  },
+  calcJusticeBoard: async () => {
+    const soldiersArray = await appUtils.findInDB(appUtils.callOfDuty.soldiersCollection, () => true)
+    return await Promise.all(soldiersArray.map(async soldier => {
+      const dutiesValues = await Promise.all(soldier.duties.map(async dutyId => 
+        (await appUtils.getFromDB(appUtils.callOfDuty.dutiesCollection, dutyId)).value))
+      return { 
+        id: soldier.id, 
+        score: dutiesValues.reduce((totalValue, dutyValue) => totalValue + dutyValue, 0) 
+      }
+    }))
   }
 }
 
