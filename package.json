@@ -1,0 +1,27 @@
+{
+  "name": "nodejstraining",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "async": "^3.2.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^7.1.1",
+    "rimraf": "^3.0.2"
+  },
+  "scripts": {
+    "test": "mocha ./MingoDB/test --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AnatShafir/NodeJsTraining.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AnatShafir/NodeJsTraining/issues"
+  },
+  "homepage": "https://github.com/AnatShafir/NodeJsTraining#readme"
+}
